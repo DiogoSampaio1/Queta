@@ -1,0 +1,46 @@
+services:
+  app:
+    build: .
+    container_name: flask-Queta
+    restart: unless-stopped
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    environment:
+      MYSQL_HOST: mysql-db
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: Queta
+      MYSQL_USER: Diogo
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-Queta_dev}
+    ports:
+      - "8080:80"
+    volumes:
+      # Remover esta montagem na versão final
+      - ./src:/app/src
+
+  mysql-db:
+    image: mysql:8.4
+    container_name: mysql-Queta
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: Queta
+      MYSQL_USER: Diogo
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-Queta_dev}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_mysql_dev}
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./Volumes/database/mysql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  mysql_data:

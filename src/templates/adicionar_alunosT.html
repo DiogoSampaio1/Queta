@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <title>Adicionar Aluno</title>
+</head>
+<body>
+
+    {% include 'authInfo.html' %}
+
+    <h1>Adicionar Aluno</h1>
+
+    <form id="adicionarAlunoForm">
+
+        <label for="numero_aluno">Número de Aluno:</label>
+        <input type="text" id="numero_aluno" required>
+        <br><br>
+
+        <label for="nome_proprio">Nome Próprio:</label>
+        <input type="text" id="nome_proprio" required>
+        <br><br>
+
+        <label for="apelido">Apelido:</label>
+        <input type="text" id="apelido" required>
+        <br><br>
+
+        <label for="data_nascimento">Data de Nascimento:</label>
+        <input type="date" id="data_nascimento" required>
+        <br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+        <br><br>
+
+        <label for="telefone">Telefone:</label>
+        <input type="tel" id="telefone" required>
+        <br><br>
+
+        <label for="morada">Morada:</label>
+        <input type="text" id="morada" required>
+        <br><br>
+
+        <label for="codigo_postal">Código Postal:</label>
+        <input
+            type="text"
+            id="codigo_postal"
+            placeholder="Ex.: 2735-123"
+            pattern="[0-9]{4}-[0-9]{3}"
+            required
+        >
+        <br><br>
+
+        <label for="localidade">Localidade:</label>
+        <input type="text" id="localidade" required>
+        <br><br>
+
+        <label for="passphrase">Password:</label>
+        <input type="password" id="passphrase" required>
+        <br><br>
+
+        <button type="submit">Adicionar Aluno</button>
+
+    </form>
+
+    <p id="mensagem"></p>
+
+    <br>
+    <a href="/alunos">Voltar à lista de alunos</a>
+    <br>
+    <a href="/">Voltar à página inicial</a>
+
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/adicionar_alunos.js') }}"></script>
+
+</body>
+</html>

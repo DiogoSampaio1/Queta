@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <title>Menu de Professores</title>
+</head>
+
+<body>
+
+    {% include 'authInfo.html' %}
+
+    <h1 align="center">Menu de Professores</h1>
+
+    <p id="mensagemProf"></p>
+
+    <div id="conteudoProf" style="display: none;">
+
+        <h2>Gestão de Alunos</h2>
+
+        <p><a href="/alunos">Consultar Alunos</a></p>
+
+        <h2>Gestão de Turmas</h2>
+
+        <p><a href="/Turmas">Ver Turmas</a></p>
+        <p><a href="/adicionar_turmas">Adicionar Turmas</a></p>
+        <p><a href="/gerir_turmas">Gerir Turmas</a></p>
+        <p><a href="/prof/turma_aluno">Adicionar / Retirar Alunos de Turmas</a></p>
+        <p>Estatísticas — Em desenvolvimento</p>
+
+    </div>
+
+    <br>
+
+    <a href="/">Voltar à página inicial</a>
+
+    <script src="{{ url_for('static', filename='js/prof.js') }}"></script>
+
+</body>
+</html>

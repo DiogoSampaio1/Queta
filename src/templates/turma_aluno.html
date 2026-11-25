@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <title>Gerir Alunos de Turmas</title>
+</head>
+
+<body>
+
+    {% include 'authInfo.html' %}
+
+    <h1>Gerir Alunos de Turmas</h1>
+
+    <p id="mensagem"></p>
+
+    <div id="conteudo" style="display: none;">
+
+        <section class="secao">
+
+            <h2>Selecionar Turma</h2>
+
+            <div class="campo">
+                <select id="selecionarTurma">
+                    <option value="">-- Seleciona uma turma --</option>
+
+                    {% for turma in turmas %}
+                        <option value="{{ turma.turma_id }}">
+                            {{ turma.codigo }} ({{ turma.ano_letivo }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+        </section>
+
+        <section id="infoTurma" class="secao" style="display: none;">
+
+            <h2 id="codigoTurma"></h2>
+
+            <p>
+                <strong>Curso:</strong>
+                <span id="cursoTurma"></span>
+            </p>
+
+            <p>
+                <strong>Ano letivo:</strong>
+                <span id="anoLetivo"></span>
+            </p>
+
+            <p>
+                <strong>Estado:</strong>
+                <span id="estadoTurma"></span>
+            </p>
+
+            <p>
+                <strong>Alunos inscritos:</strong>
+                <span id="totalAlunos">0</span> /
+                <span id="limiteAlunos">0</span>
+            </p>
+
+        </section>
+
+        <section id="secaoAdicionar" class="secao" style="display: none;">
+
+            <h2>Adicionar Aluno</h2>
+
+            <p>
+                Introduz o número do aluno que pretendes adicionar
+                a esta turma.
+            </p>
+
+            <form id="formAdicionarAluno">
+
+                <div class="campo">
+
+                    <input
+                        type="text"
+                        id="numeroAluno"
+                        placeholder="Número de aluno"
+                        maxlength="20"
+                        required
+                    >
+
+                    <button type="submit" class="adicionar">
+                        Adicionar aluno
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+        <section id="secaoAlunos" class="secao" style="display: none;">
+
+            <h2>Alunos Inscritos</h2>
+
+            <div id="listaAlunos">
+                <p>Seleciona uma turma.</p>
+            </div>
+
+        </section>
+
+    </div>
+
+    <p>
+    {% if origem == "admin" %}
+        <a href="/admin">Voltar ao menu de administração</a>
+    {% elif origem == "prof" %}
+        <a href="/prof">Voltar ao menu de professor</a>
+    {% endif %}
+    </p>
+
+    <script src="{{ url_for('static', filename='js/turma_aluno.js') }}"></script>
+
+</body>
+</html>

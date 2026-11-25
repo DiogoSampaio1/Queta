@@ -1,0 +1,487 @@
+/* ==========================================================================
+   components.css — sessão, botões, formulários, mensagens, tabelas
+   O JS alterna style.display (none/block) em blocos e no formulário de editar
+   turma: aqui não se define display em nenhum desses elementos nem !important.
+   ========================================================================== */
+
+/* ---------- Barra de sessão (#authInfo) ----------
+   Cartão em grelha, duas linhas:
+   1.ª  ponto de estado + "Sessão iniciada"            [ Terminar sessão ]
+   2.ª  Número de aluno | ID | Tipo de utilizador (etiqueta pequena por cima do valor)
+   Sem sessão: só a 1.ª linha, com "Iniciar sessão" à direita. */
+#authInfo {
+  display: grid;
+  grid-template-columns: max-content max-content minmax(0, 1fr);
+  align-items: center;
+  row-gap: 0.85rem;
+  margin-bottom: 0.5rem;
+  padding: 0.95rem 1.25rem 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--text) 5%, transparent);
+}
+
+#authInfo:empty {
+  display: none;
+}
+
+/* título só para leitores de ecrã */
+#authInfo h3 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+#authInfo p {
+  display: flex;
+  margin: 0;
+  color: var(--text);
+}
+
+#authInfo p strong {
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* linha 1: estado */
+#authInfo p:first-of-type {
+  grid-column: 1 / 3;
+  grid-row: 1;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+#authInfo p:first-of-type strong {
+  font-weight: 400;
+}
+
+/* ponto de estado: âmbar sem sessão, verde a pulsar com sessão */
+#authInfo p:first-of-type::before {
+  content: "";
+  align-self: center;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-right: 0.2rem;
+  border-radius: 50%;
+  background: var(--warn);
+}
+
+#authInfo:has(button) p:first-of-type::before {
+  background: var(--ok);
+  animation: pulse 2.4s ease-out infinite;
+}
+
+/* linha 2: dados da sessão, etiqueta por cima do valor */
+#authInfo p:nth-of-type(n + 2) {
+  grid-row: 2;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.85rem 2rem 0 0;
+  font-size: 0.97rem;
+  font-weight: 600;
+  line-height: 1.3;
+  border-top: 1px solid var(--line);
+}
+
+#authInfo p:nth-of-type(n + 2) strong {
+  font-size: 0.74rem;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+}
+
+#authInfo p:nth-of-type(2) { grid-column: 1; }
+#authInfo p:nth-of-type(3) { grid-column: 2; }
+#authInfo p:nth-of-type(4) {
+  grid-column: 3;
+  padding-right: 0;
+  text-transform: capitalize; /* professor -> Professor */
+}
+
+/* ação à direita da 1.ª linha: "Terminar sessão" / "Iniciar sessão" */
+#authInfo button,
+#authInfo > a {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+}
+
+/* "Iniciar sessão" */
+#authInfo > a {
+  padding: 0.35rem 0.95rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+#authInfo > a:hover {
+  color: var(--text);
+  background: var(--surface-2);
+  border-color: var(--text);
+}
+
+/* ---------- Botões: fundo e letra definidos sempre em par ---------- */
+button {
+  --_bg: var(--text);
+  --_fg: var(--bg);
+  --_bd: transparent;
+  --_bg-h: color-mix(in srgb, var(--text) 80%, var(--bg));
+  --_fg-h: var(--bg);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.6rem 1.15rem;
+  font: inherit;
+  font-size: 0.93rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--_fg);
+  background: var(--_bg);
+  border: 1px solid var(--_bd);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.12s;
+}
+
+button:hover {
+  color: var(--_fg-h);
+  background: var(--_bg-h);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* secundário: Cancelar e "Editar" nas tabelas */
+#cancelarEdicao,
+td button {
+  --_bg: transparent;
+  --_fg: var(--text);
+  --_bd: var(--line-strong);
+  --_bg-h: var(--surface-2);
+  --_fg-h: var(--text);
+}
+
+td button {
+  padding: 0.3rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+#cancelarEdicao:hover,
+td button:hover {
+  border-color: var(--text);
+}
+
+/* ação destrutiva (botões criados pelo JS na lista de alunos da turma) */
+div#listaAlunos button,
+button.remover,
+button.apagar {
+  --_bg: transparent;
+  --_fg: var(--danger);
+  --_bd: var(--line-strong);
+  --_bg-h: color-mix(in srgb, var(--danger) 12%, transparent);
+  --_fg-h: var(--danger);
+  padding: 0.3rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+div#listaAlunos button:hover,
+button.remover:hover,
+button.apagar:hover {
+  border-color: var(--danger);
+}
+
+/* "Terminar sessão": botão-pílula discreto com ícone; avisa em vermelho ao pairar */
+#authInfo button {
+  --_bg: transparent;
+  --_fg: var(--muted);
+  --_bd: var(--line-strong);
+  --_bg-h: color-mix(in srgb, var(--danger) 10%, transparent);
+  --_fg-h: var(--danger);
+  gap: 0.45rem;
+  padding: 0.35rem 0.95rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 999px;
+}
+
+#authInfo button:hover {
+  border-color: var(--danger);
+}
+
+#authInfo button::before {
+  content: "";
+  width: 0.95em;
+  height: 0.95em;
+  background: currentColor;
+  -webkit-mask: var(--icon-logout) center / contain no-repeat;
+  mask: var(--icon-logout) center / contain no-repeat;
+  transition: transform 0.3s var(--ease);
+}
+
+#authInfo button:hover::before {
+  transform: translateX(2px);
+}
+
+#authInfo {
+  --icon-logout: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9'/%3E%3C/svg%3E");
+}
+
+@media (max-width: 640px) {
+  #authInfo {
+    padding: 0.85rem 1rem 0.9rem;
+  }
+
+  #authInfo p:nth-of-type(n + 2) {
+    padding-right: 1.25rem;
+  }
+}
+
+/* ---------- Formulários (planos, sem caixa) ---------- */
+form {
+  margin: 1.5rem 0;
+  padding: 0;
+}
+
+form h2 {
+  margin-top: 0;
+}
+
+form button {
+  margin: 1.75rem 0.6rem 0 0;
+}
+
+label {
+  display: block;
+  margin: 1.15rem 0 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  transition: color 0.2s;
+}
+
+form > label:first-child,
+form > h2 + label {
+  margin-top: 0;
+}
+
+/* a etiqueta ganha cor quando o campo seguinte tem foco */
+label:has(+ input:focus),
+label:has(+ select:focus),
+label:has(+ textarea:focus),
+label:has(+ br + textarea:focus) {
+  color: var(--accent);
+}
+
+input:not([type="checkbox"]),
+select,
+textarea {
+  display: block;
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--field);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--placeholder);
+}
+
+input:not([type="checkbox"]):focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--ring);
+}
+
+input:user-invalid,
+select:user-invalid,
+textarea:user-invalid {
+  border-color: var(--danger);
+}
+
+textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+select {
+  appearance: none;
+  padding-right: 2.5rem;
+  cursor: pointer;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: calc(100% - 1.25rem) 55%, calc(100% - 0.9rem) 55%;
+  background-size: 0.4rem 0.4rem;
+  background-repeat: no-repeat;
+}
+
+select option {
+  color: var(--text);
+  background: var(--surface);
+}
+
+/* checkbox em forma de interruptor */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  display: block;
+  width: 2.5rem;
+  height: 1.4rem;
+  margin: 0.2rem 0 0;
+  background: var(--track);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.25s;
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  top: 0.2rem;
+  left: 0.2rem;
+  width: 1rem;
+  height: 1rem;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: transform 0.35s var(--ease-spring);
+}
+
+input[type="checkbox"]:checked {
+  background: var(--accent);
+}
+
+input[type="checkbox"]:checked::before {
+  transform: translateX(1.1rem);
+}
+
+/* ---------- Mensagens (<p id="mensagem">) ----------
+   Opcional: se o JS puser a classe "ok" ou "erro" no parágrafo, a barra muda de cor. */
+#mensagem,
+#mensagemAdmin,
+#mensagemProf {
+  margin: 1rem 0;
+  padding: 0.65rem 0.9rem;
+  font-size: 0.93rem;
+  font-weight: 500;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  animation: pop 0.3s var(--ease) both;
+}
+
+#mensagem:empty,
+#mensagemAdmin:empty,
+#mensagemProf:empty {
+  display: none;
+}
+
+#mensagem.ok,
+#mensagemAdmin.ok,
+#mensagemProf.ok {
+  border-left-color: var(--ok);
+}
+
+#mensagem.erro,
+#mensagemAdmin.erro,
+#mensagemProf.erro {
+  border-left-color: var(--danger);
+}
+
+/* ---------- Tabelas: só linhas finas, sem caixa ---------- */
+table {
+  width: 100%;
+  margin: 0.5rem 0 1rem;
+  border: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+th,
+td {
+  padding: 0.75rem 1rem 0.75rem 0;
+  font-size: 0.93rem;
+  text-align: left;
+  vertical-align: middle;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+thead th {
+  padding-top: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  border-bottom-color: var(--line-strong);
+}
+
+tbody tr {
+  transition: background-color 0.15s;
+}
+
+tbody tr:hover {
+  background: color-mix(in srgb, var(--surface-2) 70%, transparent);
+}
+
+/* "Não existem ..." */
+td[colspan] {
+  padding: 2.5rem 0;
+  text-align: center;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  /* cabeçalhos podem quebrar; valores nunca (nada de "2026/2 027") */
+  th,
+  td {
+    padding: 0.7rem 0.7rem 0.7rem 0;
+    font-size: 0.85rem;
+  }
+
+  td {
+    white-space: nowrap;
+  }
+
+  form button {
+    width: 100%;
+    margin-right: 0;
+  }
+}

@@ -1,0 +1,66 @@
+/* ==========================================================================
+   tokens.css — papel frio, tinta azul-marinho, um único acento verde-azulado.
+   Claro por defeito; escuro automático conforme o sistema.
+   Contrastes (WCAG AA): texto >15:1 | secundário >5.5:1 | acento >5:1
+   ========================================================================== */
+
+:root {
+  color-scheme: light dark;
+
+  --bg: #f5f7f8;
+  --surface: #ffffff;
+  --surface-2: #edf1f4;
+  --field: #ffffff;
+  --line: #dde3e8;
+  --line-strong: #c3ccd5;
+
+  --text: #0e1a2b;
+  --muted: #566274;
+  --placeholder: #7f8a99;
+
+  --accent: #0b6e7a;
+  --accent-hover: #08565f;
+  --accent-soft: rgba(11, 110, 122, 0.14);
+
+  --ok: #0f7a4f;
+  --warn: #a15c00;
+  --danger: #b3261e;
+
+  --track: #a9b3bf;
+  --ring: 0 0 0 3px rgba(11, 110, 122, 0.28);
+
+  --radius: 8px;
+  --radius-sm: 6px;
+
+  --font-body: system-ui, "Segoe UI Variable Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0a111c;
+    --surface: #101826;
+    --surface-2: #162132;
+    --field: #101826;
+    --line: #1f2a3a;
+    --line-strong: #2f3d52;
+
+    --text: #e8edf3;
+    --muted: #93a1b3;
+    --placeholder: #6f7d90;
+
+    --accent: #4cc3cf;
+    --accent-hover: #7dd6df;
+    --accent-soft: rgba(76, 195, 207, 0.18);
+
+    --ok: #4ade9a;
+    --warn: #f2b441;
+    --danger: #ff8a80;
+
+    --track: #455268;
+    --ring: 0 0 0 3px rgba(76, 195, 207, 0.35);
+  }
+}

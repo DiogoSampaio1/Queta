@@ -1,0 +1,4 @@
+restart backend - docker restart flask-Alunos
+restart mysql - docker restart mysql-Alunos
+Mysql - docker exec -it mysql-Alunos mysql -u Diogo -p
+logs backend - docker logs -f flask-Alunos
